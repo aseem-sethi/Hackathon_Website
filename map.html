@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flood Risk Map - Delhi Water-Logging System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="nav-logo">💧</span>
+                <h2>Delhi Water-Logging System</h2>
+            </div>
+            <div class="nav-content">
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="map.html" class="active">Map View</a>
+                    <a href="authority.html">Dashboard</a>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                    <span class="icon" id="theme-icon">🌙</span>
+                    <span id="theme-text">Dark</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Map Header -->
+    <section class="map-header">
+        <div class="container">
+            <h1>Delhi Flood Risk Map</h1>
+            <p>Interactive ward-level visualization | Click any zone for detailed information</p>
+        </div>
+    </section>
+
+    <!-- Risk Legend - Sticky -->
+    <section class="map-legend">
+        <div class="container">
+            <h3>Risk Levels:</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <span class="legend-color low"></span>
+                    <span>Low Risk (0-40)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color medium"></span>
+                    <span>Medium Risk (41-70)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color high"></span>
+                    <span>High Risk (71-100)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section - Split Layout -->
+    <section class="map-section">
+        <div class="container">
+            <!-- Delhi Map Container -->
+            <div class="map-container">
+                <svg viewBox="0 0 800 1000" class="delhi-map">
+                    <!-- Map Title -->
+                    <text x="400" y="40" text-anchor="middle" font-size="28" font-weight="bold" fill="var(--text-primary)" font-family="Inter">
+                        Delhi NCT
+                    </text>
+                    
+                    <!-- Delhi Outer Boundary - More Realistic Shape -->
+                    <path d="M 250 120 
+                             L 280 100 L 320 95 L 360 100 L 400 95 L 440 100 L 480 105 L 520 115 L 550 130
+                             L 570 150 L 585 180 L 595 220 L 598 260 L 595 300
+                             L 590 350 L 585 400 L 580 450 L 575 500 L 570 550
+                             L 560 600 L 545 650 L 525 690 L 500 720 L 470 745
+                             L 430 765 L 390 775 L 350 778 L 310 775 L 270 765
+                             L 235 745 L 210 720 L 190 685 L 175 645 L 165 600
+                             L 160 550 L 158 500 L 160 450 L 165 400 L 170 350
+                             L 175 300 L 185 250 L 200 200 L 220 160 L 235 135 Z" 
+                          fill="var(--bg-secondary)" 
+                          stroke="var(--border-secondary)" 
+                          stroke-width="3"
+                          opacity="0.6"/>
+                    
+                    <!-- District Boundaries (Simplified) -->
+                    <g id="districts" stroke="var(--border-primary)" stroke-width="1.5" fill="none" opacity="0.4">
+                        <!-- North Delhi -->
+                        <path d="M 250 120 L 400 180 L 520 115"/>
+                        <!-- North East Delhi -->
+                        <path d="M 520 115 L 550 180 L 595 220"/>
+                        <!-- East Delhi -->
+                        <path d="M 595 220 L 580 300 L 590 400"/>
+                        <!-- South East Delhi -->
+                        <path d="M 590 400 L 560 500 L 525 600"/>
+                        <!-- South Delhi -->
+                        <path d="M 525 600 L 430 650 L 350 690"/>
+                        <!-- South West Delhi -->
+                        <path d="M 350 690 L 270 650 L 210 600"/>
+                        <!-- West Delhi -->
+                        <path d="M 210 600 L 165 500 L 160 400"/>
+                        <!-- North West Delhi -->
+                        <path d="M 160 400 L 170 300 L 200 200 L 250 120"/>
+                        <!-- Central Delhi -->
+                        <path d="M 300 300 L 350 250 L 450 250 L 500 300 L 480 400 L 400 450 L 320 400 Z"/>
+                    </g>
+                    
+                    <!-- Major Landmarks (Optional Reference Points) -->
+                    <g id="landmarks" opacity="0.3">
+                        <!-- Yamuna River (Simplified) -->
+                        <path d="M 520 115 Q 540 200 560 300 Q 575 400 560 500 Q 550 600 525 690" 
+                              stroke="var(--info)" 
+                              stroke-width="4" 
+                              fill="none" 
+                              opacity="0.2"/>
+                    </g>
+                    
+                    <!-- District Labels -->
+                    <g id="district-labels" font-size="11" fill="var(--text-tertiary)" font-family="Inter" font-weight="500" opacity="0.6">
+                        <text x="350" y="140" text-anchor="middle">NORTH</text>
+                        <text x="500" y="160" text-anchor="middle">NE</text>
+                        <text x="560" y="300" text-anchor="middle">EAST</text>
+                        <text x="530" y="500" text-anchor="middle">SE</text>
+                        <text x="400" y="680" text-anchor="middle">SOUTH</text>
+                        <text x="250" y="620" text-anchor="middle">SW</text>
+                        <text x="190" y="450" text-anchor="middle">WEST</text>
+                        <text x="220" y="250" text-anchor="middle">NW</text>
+                        <text x="380" y="350" text-anchor="middle" font-size="12" opacity="0.8">CENTRAL</text>
+                    </g>
+
+                    <!-- Hotspot Markers Container (Generated Dynamically) -->
+                    <g id="hotspots-container"></g>
+                </svg>
+            </div>
+
+            <!-- Hotspots Sidebar - Sticky -->
+            <div class="hotspots-sidebar">
+                <h3>Water-Logging Hotspots</h3>
+                <div id="hotspots-list">
+                    <!-- Generated dynamically by script.js -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Delhi Water-Logging Monitoring System</p>
+        </div>
+    </footer>
+
+    <!-- Load Data and Scripts -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Initialize map when page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            renderHotspotsOnMap();
+            renderHotspotsList();
+        });
+    </script>
+</body>
+</html>
