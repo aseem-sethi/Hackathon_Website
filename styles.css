@@ -226,6 +226,12 @@ body > * {
     align-items: center;
 }
 
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
 .nav-links a {
     color: var(--text-secondary);
     text-decoration: none;
@@ -245,6 +251,33 @@ body > * {
 .nav-links a.active {
     color: var(--primary);
     background-color: rgba(21, 96, 189, 0.1);
+}
+
+/* Language Selector */
+.language-selector {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-secondary);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    font-family: 'Inter', sans-serif;
+    min-width: 110px;
+}
+
+.language-selector:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--border-secondary);
+    color: var(--text-primary);
+}
+
+.language-selector:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(21, 96, 189, 0.1);
 }
 
 /* Theme Toggle Button */
@@ -2206,6 +2239,41 @@ footer p:last-child {
 }
 
 /* ============================================
+   RTL SUPPORT - For Urdu Language
+   ============================================ */
+[dir="rtl"] .nav-brand {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-content {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-links {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-controls {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hotspot-item {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .timeline-item {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .rule-item {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .checklist-item {
+    flex-direction: row-reverse;
+}
+
+/* ============================================
    RESPONSIVE DESIGN - Mobile Optimized
    ============================================ */
 @media (max-width: 1024px) {
@@ -2247,6 +2315,16 @@ footer p:last-child {
     .nav-links a {
         width: 100%;
         text-align: center;
+    }
+    
+    .nav-controls {
+        width: 100%;
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+    
+    .language-selector {
+        width: 100%;
     }
     
     .hero h1 {

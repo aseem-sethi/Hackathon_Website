@@ -16,14 +16,22 @@
             </div>
             <div class="nav-content">
                 <div class="nav-links">
-                    <a href="index.html" class="active">Home</a>
-                    <a href="map.html">Map View</a>
-                    <a href="authority.html">Dashboard</a>
+                    <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+                    <a href="map.html" data-i18n="nav.map">Map View</a>
+                    <a href="authority.html" data-i18n="nav.dashboard">Dashboard</a>
                 </div>
-                <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
-                    <span class="icon" id="theme-icon">🌙</span>
-                    <span id="theme-text">Dark</span>
-                </button>
+                <div class="nav-controls">
+                    <select class="language-selector" id="language-selector" onchange="changeLanguage(this.value)">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="pa">Punjabi</option>
+                        <option value="ur">Urdu</option>
+                    </select>
+                    <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                        <span class="icon" id="theme-icon">🌙</span>
+                        <span id="theme-text" data-i18n="theme.dark">Dark</span>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -31,8 +39,8 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Delhi Water-Logging Hotspot Mapping System</h1>
-            <p class="subtitle">Real-time monitoring and predictive analytics for flood-prone areas across Delhi NCT</p>
+            <h1 data-i18n="hero.title">Delhi Water-Logging Hotspot Mapping System</h1>
+            <p class="subtitle" data-i18n="hero.subtitle">Real-time monitoring and predictive analytics for flood-prone areas across Delhi NCT</p>
         </div>
     </section>
 
@@ -40,8 +48,8 @@
     <section class="section problem-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">The Challenge</h2>
-                <p class="section-description">
+                <h2 class="section-title" data-i18n="problem.title">The Challenge</h2>
+                <p class="section-description" data-i18n="problem.description">
                     During monsoon season, Delhi faces severe water-logging issues that disrupt traffic, 
                     damage infrastructure, and pose risks to public safety. This system helps authorities 
                     identify high-risk zones, predict flooding events, and take preventive action through 
@@ -55,7 +63,7 @@
     <section class="section stats-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Current Impact Overview</h2>
+                <h2 class="section-title" data-i18n="stats.title">Current Impact Overview</h2>
             </div>
             <div class="stats-grid">
                 <!-- Stat Card 1 -->
@@ -97,7 +105,7 @@
     <section class="section features-section">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">System Capabilities</h2>
+                <h2 class="section-title" data-i18n="features.title">System Capabilities</h2>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
@@ -123,10 +131,10 @@
     <!-- Call to Action -->
     <section class="cta-section">
         <div class="container">
-            <h2>View Real-Time Flood Risk Map</h2>
-            <p>Access comprehensive ward-level water-logging data and predictive analytics</p>
+            <h2 data-i18n="cta.title">View Real-Time Flood Risk Map</h2>
+            <p data-i18n="cta.description">Access comprehensive ward-level water-logging data and predictive analytics</p>
             <a href="map.html" class="cta-button">
-                <span>Open Flood Risk Map</span>
+                <span data-i18n="cta.button">Open Flood Risk Map</span>
                 <span>→</span>
             </a>
         </div>
@@ -141,6 +149,7 @@
     </footer>
 
     <!-- Scripts -->
+    <script src="translations.js"></script>
     <script src="data.js"></script>
     <script src="script.js"></script>
 </body>
