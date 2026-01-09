@@ -32,7 +32,7 @@ const translations = {
         'cta.button': 'Open Flood Risk Map',
         
         // Footer
-        'footer.copyright': '© 2024 Delhi Water-Logging Monitoring System | Government Hackathon Project',
+        'footer.copyright': '© 2026 Delhi Water-Logging Monitoring System | Government Hackathon Project',
         'footer.developed': 'Developed for Municipal Corporation of Delhi (MCD)'
     },
     
@@ -64,7 +64,7 @@ const translations = {
         'cta.button': 'बाढ़ जोखिम मानचित्र खोलें',
         
         // Footer
-        'footer.copyright': '© 2024 दिल्ली जल-जमाव निगरानी प्रणाली | सरकारी हैकाथॉन परियोजना',
+        'footer.copyright': '© 2026 दिल्ली जल-जमाव निगरानी प्रणाली | सरकारी हैकाथॉन परियोजना',
         'footer.developed': 'दिल्ली नगर निगम (एमसीडी) के लिए विकसित'
     },
     
@@ -96,7 +96,7 @@ const translations = {
         'cta.button': 'ਹੜ੍ਹ ਜੋਖਮ ਨਕਸ਼ਾ ਖੋਲ੍ਹੋ',
         
         // Footer
-        'footer.copyright': '© 2024 ਦਿੱਲੀ ਪਾਣੀ-ਜਮ੍ਹਾਂ ਨਿਗਰਾਨੀ ਪ੍ਰਣਾਲੀ | ਸਰਕਾਰੀ ਹੈਕਾਥੌਨ ਪ੍ਰੋਜੈਕਟ',
+        'footer.copyright': '© 2026 ਦਿੱਲੀ ਪਾਣੀ-ਜਮ੍ਹਾਂ ਨਿਗਰਾਨੀ ਪ੍ਰਣਾਲੀ | ਸਰਕਾਰੀ ਹੈਕਾਥੌਨ ਪ੍ਰੋਜੈਕਟ',
         'footer.developed': 'ਦਿੱਲੀ ਨਗਰ ਨਿਗਮ (ਐਮਸੀਡੀ) ਲਈ ਵਿਕਸਿਤ'
     },
     
@@ -128,7 +128,7 @@ const translations = {
         'cta.button': 'سیلاب کے خطرے کا نقشہ کھولیں',
         
         // Footer
-        'footer.copyright': '© 2024 دہلی واٹر لاگنگ مانیٹرنگ سسٹم | حکومتی ہیکاتھون پروجیکٹ',
+        'footer.copyright': '© 2026 دہلی واٹر لاگنگ مانیٹرنگ سسٹم | حکومتی ہیکاتھون پروجیکٹ',
         'footer.developed': 'میونسپل کارپوریشن آف دہلی (ایم سی ڈی) کے لیے تیار کیا گیا'
     }
 };

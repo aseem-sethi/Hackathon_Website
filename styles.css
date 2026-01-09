@@ -2239,6 +2239,48 @@ footer p:last-child {
 }
 
 /* ============================================
+   LEAFLET MAP CUSTOMIZATION
+   ============================================ */
+.leaflet-popup-content-wrapper {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    font-family: 'Inter', sans-serif;
+}
+
+.leaflet-popup-tip {
+    background: white;
+}
+
+[data-theme="dark"] .leaflet-popup-content-wrapper {
+    background-color: var(--bg-elevated);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .leaflet-popup-tip {
+    background-color: var(--bg-elevated);
+}
+
+.ward-tooltip {
+    background-color: var(--bg-elevated) !important;
+    border: 1px solid var(--border-primary) !important;
+    border-radius: var(--radius-md) !important;
+    padding: var(--space-2) var(--space-3) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: var(--text-xs) !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.ward-tooltip::before {
+    border-top-color: var(--border-primary) !important;
+}
+
+.leaflet-control-filter {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ============================================
    RTL SUPPORT - For Urdu Language
    ============================================ */
 [dir="rtl"] .nav-brand {

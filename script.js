@@ -188,68 +188,198 @@ function addMarkerPulse() {
 }
 
 // ============================================
-// MAP PAGE FUNCTIONS
+// MAP PAGE FUNCTIONS - Leaflet GIS Map
 // ============================================
 
+// Global map variable
+let delhiMap = null;
+let markersLayer = null;
+
 /**
- * Render hotspot markers on the SVG map
+ * Initialize Leaflet map with Delhi centered
  */
-function renderHotspotsOnMap() {
-    const container = document.getElementById('hotspots-container');
-    if (!container) return;
+function initializeLeafletMap() {
+    const mapElement = document.getElementById('delhi-map');
+    if (!mapElement) return;
 
-    // Clear existing hotspots
-    container.innerHTML = '';
+    // Initialize map centered on Delhi
+    delhiMap = L.map('delhi-map').setView([28.6139, 77.2090], 11);
 
-    // Add each ward as a clickable circle marker with stagger animation
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+        minZoom: 10
+    }).addTo(delhiMap);
+
+    // Create a layer group for markers
+    markersLayer = L.layerGroup().addTo(delhiMap);
+
+    // Add ward markers to the map
+    renderLeafletMarkers();
+
+    // Add map controls
+    addMapControls();
+}
+
+/**
+ * Render ward markers on Leaflet map
+ */
+function renderLeafletMarkers() {
+    if (!markersLayer) return;
+
+    // Clear existing markers
+    markersLayer.clearLayers();
+
+    // Add markers for each ward
     enhancedWardsData.forEach((ward, index) => {
-        // Add delay for stagger effect
-        setTimeout(() => {
-            // Create simple, performant circle marker
-            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            circle.setAttribute('cx', ward.x);
-            circle.setAttribute('cy', ward.y);
-            circle.setAttribute('r', '10');
-            circle.setAttribute('fill', ward.riskColor);
-            circle.setAttribute('stroke', '#fff');
-            circle.setAttribute('stroke-width', '2.5');
-            circle.setAttribute('cursor', 'pointer');
-            circle.setAttribute('class', 'hotspot-marker');
-            circle.style.transition = 'all 0.2s ease';
-            
-            // Simple hover effect - just scale
-            circle.addEventListener('mouseenter', function() {
-                this.setAttribute('r', '13');
-                this.style.filter = 'brightness(1.2) drop-shadow(0 2px 6px rgba(0,0,0,0.3))';
-            });
-            
-            circle.addEventListener('mouseleave', function() {
-                this.setAttribute('r', '10');
-                this.style.filter = 'drop-shadow(0 1px 3px rgba(0,0,0,0.2))';
-            });
+        // Use ward coordinates (lat, lng)
+        const marker = L.circleMarker([ward.lat, ward.lng], {
+            radius: 10,
+            fillColor: ward.riskColor,
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.8
+        });
 
-            // Add click handler
-            circle.addEventListener('click', function() {
-                navigateToWard(ward.id);
+        // Create popup content
+        const popupContent = `
+            <div style="font-family: Inter, sans-serif; padding: 8px; min-width: 200px;">
+                <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 700; color: #0f172a;">
+                    ${ward.name}
+                </h3>
+                <p style="margin: 0 0 4px 0; font-size: 13px; color: #475569;">
+                    <strong>District:</strong> ${ward.district}
+                </p>
+                <p style="margin: 0 0 4px 0; font-size: 13px; color: #475569;">
+                    <strong>Risk Score:</strong> ${ward.riskScore}/100
+                </p>
+                <p style="margin: 0 0 8px 0;">
+                    <span style="display: inline-block; padding: 4px 12px; background-color: ${ward.riskColor}; color: white; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase;">
+                        ${ward.riskLevel} Risk
+                    </span>
+                </p>
+                <button onclick="navigateToWard(${ward.id})" 
+                        style="width: 100%; padding: 8px; background-color: #1560BD; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">
+                    View Details →
+                </button>
+            </div>
+        `;
+
+        marker.bindPopup(popupContent, {
+            maxWidth: 300,
+            className: 'custom-popup'
+        });
+
+        // Add hover effect
+        marker.on('mouseover', function() {
+            this.setStyle({
+                radius: 13,
+                fillOpacity: 1
             });
+        });
 
-            // Create label with better visibility
-            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            text.setAttribute('x', ward.x);
-            text.setAttribute('y', ward.y + 28);
-            text.setAttribute('text-anchor', 'middle');
-            text.setAttribute('font-size', '10');
-            text.setAttribute('font-weight', '600');
-            text.setAttribute('font-family', 'Inter');
-            text.setAttribute('fill', 'var(--text-primary)');
-            text.setAttribute('style', 'paint-order: stroke; stroke: var(--bg-elevated); stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round;');
-            text.textContent = ward.name;
+        marker.on('mouseout', function() {
+            this.setStyle({
+                radius: 10,
+                fillOpacity: 0.8
+            });
+        });
 
-            container.appendChild(circle);
-            container.appendChild(text);
-            
-        }, index * 30); // Reduced stagger for faster load
+        // Add to layer group
+        marker.addTo(markersLayer);
+
+        // Add tooltip with ward name
+        marker.bindTooltip(ward.name, {
+            permanent: false,
+            direction: 'top',
+            className: 'ward-tooltip'
+        });
     });
+}
+
+/**
+ * Add custom map controls
+ */
+function addMapControls() {
+    // Add custom control for filtering by risk level
+    const filterControl = L.control({ position: 'topright' });
+
+    filterControl.onAdd = function(map) {
+        const div = L.DomUtil.create('div', 'leaflet-control-filter');
+        div.innerHTML = `
+            <div style="background: white; padding: 12px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-family: Inter;">
+                <h4 style="margin: 0 0 8px 0; font-size: 13px; font-weight: 600; color: #475569;">Filter by Risk</h4>
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px;">
+                        <input type="checkbox" checked onchange="filterMapMarkers('all')" id="filter-all" style="cursor: pointer;">
+                        <span>All Wards</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px;">
+                        <input type="checkbox" checked onchange="filterMapMarkers('high')" id="filter-high" style="cursor: pointer;">
+                        <span style="color: #dc2626;">High Risk</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px;">
+                        <input type="checkbox" checked onchange="filterMapMarkers('medium')" id="filter-medium" style="cursor: pointer;">
+                        <span style="color: #f59e0b;">Medium Risk</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12px;">
+                        <input type="checkbox" checked onchange="filterMapMarkers('low')" id="filter-low" style="cursor: pointer;">
+                        <span style="color: #16a34a;">Low Risk</span>
+                    </label>
+                </div>
+            </div>
+        `;
+        return div;
+    };
+
+    filterControl.addTo(delhiMap);
+}
+
+/**
+ * Filter map markers by risk level
+ */
+function filterMapMarkers(type) {
+    const filterAll = document.getElementById('filter-all');
+    const filterHigh = document.getElementById('filter-high');
+    const filterMedium = document.getElementById('filter-medium');
+    const filterLow = document.getElementById('filter-low');
+
+    // If "All" is clicked, toggle all others
+    if (type === 'all') {
+        const checked = filterAll.checked;
+        filterHigh.checked = checked;
+        filterMedium.checked = checked;
+        filterLow.checked = checked;
+    } else {
+        // Check if all are selected, then check "All"
+        filterAll.checked = filterHigh.checked && filterMedium.checked && filterLow.checked;
+    }
+
+    // Re-render markers based on filter
+    renderLeafletMarkers();
+
+    // Remove markers that don't match filter
+    if (!filterAll.checked) {
+        markersLayer.eachLayer(function(layer) {
+            const ward = enhancedWardsData.find(w => 
+                layer.getLatLng().lat === w.lat && layer.getLatLng().lng === w.lng
+            );
+            
+            if (ward) {
+                const show = (
+                    (filterHigh.checked && ward.riskLevel === 'High') ||
+                    (filterMedium.checked && ward.riskLevel === 'Medium') ||
+                    (filterLow.checked && ward.riskLevel === 'Low')
+                );
+                
+                if (!show) {
+                    markersLayer.removeLayer(layer);
+                }
+            }
+        });
+    }
 }
 
 /**
@@ -366,7 +496,7 @@ function renderIncidentHistory(ward) {
     if (!list) return;
 
     if (ward.incidentHistory.length === 0) {
-        list.innerHTML = '<p class="no-incidents">No water-logging incidents recorded in 2024</p>';
+        list.innerHTML = '<p class="no-incidents">No water-logging incidents recorded in 2026</p>';
         return;
     }
 

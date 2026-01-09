@@ -15,7 +15,9 @@ const wardsData = [
         drainageScore: 25,
         pastIncidents: 12,
         x: 250, // West
-        y: 420
+        y: 420,
+        lat: 28.6602,
+        lng: 77.1386
     },
     {
         id: 2,
@@ -25,7 +27,9 @@ const wardsData = [
         drainageScore: 30,
         pastIncidents: 15,
         x: 400, // South
-        y: 680
+        y: 680,
+        lat: 28.5005,
+        lng: 77.2756
     },
     {
         id: 3,
@@ -35,7 +39,9 @@ const wardsData = [
         drainageScore: 20,
         pastIncidents: 18,
         x: 450, // South East
-        y: 640
+        y: 640,
+        lat: 28.5004,
+        lng: 77.2435
     },
     {
         id: 4,
@@ -45,7 +51,9 @@ const wardsData = [
         drainageScore: 28,
         pastIncidents: 10,
         x: 200, // Far West
-        y: 380
+        y: 380,
+        lat: 28.6832,
+        lng: 77.0281
     },
     {
         id: 5,
@@ -55,7 +63,9 @@ const wardsData = [
         drainageScore: 32,
         pastIncidents: 9,
         x: 280, // South West
-        y: 600
+        y: 600,
+        lat: 28.5524,
+        lng: 77.0734
     },
 
     // High Risk Wards
@@ -67,7 +77,9 @@ const wardsData = [
         drainageScore: 42,
         pastIncidents: 8,
         x: 220, // South West
-        y: 560
+        y: 560,
+        lat: 28.6092,
+        lng: 76.9798
     },
     {
         id: 7,
@@ -77,7 +89,9 @@ const wardsData = [
         drainageScore: 45,
         pastIncidents: 7,
         x: 360, // South
-        y: 620
+        y: 620,
+        lat: 28.5244,
+        lng: 77.1855
     },
     {
         id: 8,
@@ -87,7 +101,9 @@ const wardsData = [
         drainageScore: 40,
         pastIncidents: 6,
         x: 240, // South West
-        y: 520
+        y: 520,
+        lat: 28.5921,
+        lng: 77.0460
     },
     {
         id: 9,
@@ -97,7 +113,9 @@ const wardsData = [
         drainageScore: 48,
         pastIncidents: 7,
         x: 530, // North East
-        y: 220
+        y: 220,
+        lat: 28.6692,
+        lng: 77.2868
     },
     {
         id: 10,
@@ -107,7 +125,9 @@ const wardsData = [
         drainageScore: 50,
         pastIncidents: 5,
         x: 280, // North West
-        y: 180
+        y: 180,
+        lat: 28.7496,
+        lng: 77.0674
     },
 
     // Medium Risk Wards
@@ -119,7 +139,9 @@ const wardsData = [
         drainageScore: 55,
         pastIncidents: 4,
         x: 380, // North
-        y: 160
+        y: 160,
+        lat: 28.7185,
+        lng: 77.1910
     },
     {
         id: 12,
@@ -129,7 +151,9 @@ const wardsData = [
         drainageScore: 60,
         pastIncidents: 4,
         x: 350, // Central
-        y: 320
+        y: 320,
+        lat: 28.6519,
+        lng: 77.1909
     },
     {
         id: 13,
@@ -139,7 +163,9 @@ const wardsData = [
         drainageScore: 62,
         pastIncidents: 3,
         x: 310, // South West
-        y: 540
+        y: 540,
+        lat: 28.5672,
+        lng: 77.1589
     },
     {
         id: 14,
@@ -149,7 +175,9 @@ const wardsData = [
         drainageScore: 58,
         pastIncidents: 3,
         x: 540, // East
-        y: 350
+        y: 350,
+        lat: 28.6304,
+        lng: 77.2777
     },
     {
         id: 15,
@@ -159,7 +187,9 @@ const wardsData = [
         drainageScore: 65,
         pastIncidents: 2,
         x: 220, // West
-        y: 450
+        y: 450,
+        lat: 28.6219,
+        lng: 77.0834
     },
 
     // Low Risk Wards
@@ -171,7 +201,9 @@ const wardsData = [
         drainageScore: 78,
         pastIncidents: 1,
         x: 380, // Central
-        y: 350
+        y: 350,
+        lat: 28.6315,
+        lng: 77.2167
     },
     {
         id: 17,
@@ -181,7 +213,9 @@ const wardsData = [
         drainageScore: 82,
         pastIncidents: 1,
         x: 430, // South
-        y: 550
+        y: 550,
+        lat: 28.5706,
+        lng: 77.2368
     },
     {
         id: 18,
@@ -191,7 +225,9 @@ const wardsData = [
         drainageScore: 85,
         pastIncidents: 0,
         x: 550, // East
-        y: 420
+        y: 420,
+        lat: 28.6079,
+        lng: 77.2991
     },
     {
         id: 19,
@@ -201,7 +237,9 @@ const wardsData = [
         drainageScore: 88,
         pastIncidents: 1,
         x: 320, // North West
-        y: 200
+        y: 200,
+        lat: 28.6912,
+        lng: 77.1314
     },
     {
         id: 20,
@@ -211,7 +249,9 @@ const wardsData = [
         drainageScore: 90,
         pastIncidents: 0,
         x: 410, // South
-        y: 580
+        y: 580,
+        lat: 28.5494,
+        lng: 77.2432
     }
 ];
 
@@ -274,7 +314,7 @@ function generateIncidentHistory(ward) {
     
     for (let i = 0; i < Math.min(ward.pastIncidents, 5); i++) {
         incidents.push({
-            date: `${Math.floor(Math.random() * 28) + 1} ${months[Math.floor(Math.random() * months.length)]} 2024`,
+            date: `${Math.floor(Math.random() * 28) + 1} ${months[Math.floor(Math.random() * months.length)]} 2026`,
             severity: ward.pastIncidents > 10 ? 'Severe' : ward.pastIncidents > 5 ? 'Moderate' : 'Minor',
             duration: `${Math.floor(Math.random() * 6) + 2} hours`,
             description: 'Water-logging on main road affecting traffic flow'
